@@ -15,10 +15,13 @@ def extract_text(input_file) -> str:
     reader = PdfReader(input_file)
     text = ''
     for page in reader.pages:
-        text += '\n' + page.extract_text()
+        text += '\n' + clean(page.extract_text())
     
     return text
 
+def clean(string):
+    stripped = (c for c in string if 0 < ord(c) < 127)
+    return ''.join(stripped).strip()
 
 st.subheader('Document to Instruction Data Set')
 
@@ -60,29 +63,3 @@ if input_file is not None:
                 file_name='chunks.csv',
                 mime='text/csv'
             )    
-
-
-#if input_file is not None:
-    
-        #input_file.getvalue
-        #elements = partition_pdf("examples/fritzbox-7590_man_en_GB.pdf")
-        #print(elements)
-        
-        #st.write("Searching for data...")
-        #time.sleep(2)
-        #st.write("Found URL.")
-        #time.sleep(1)
-        #st.write("Downloading data...")
-        #time.sleep(1)
-        
-            #text = extract_text()
-        
-
-
-#input = st.text_area('Your question', value='Why is the sky blue?')
-#click = st.button('Generate')
-#if click:
-#    runner = ollamac.OlcRunner()
-#    runner.host = "localhost"
-#    runner.port = 8888
-#    st.write(runner._generate(input))
